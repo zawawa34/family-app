@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # Devise routes for authentication
-  devise_for :user_database_authentications, path: 'users', class_name: 'User::DatabaseAuthentication'
+  devise_for :user_database_authentications, path: 'users', class_name: 'User::DatabaseAuthentication', controllers: {
+    registrations: 'user/registrations'
+  }
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
