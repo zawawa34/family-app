@@ -36,6 +36,9 @@ RSpec.configure do |config|
   # Factory Botのメソッドを直接使えるようにする
   config.include FactoryBot::Syntax::Methods
 
+  # Deviseのテストヘルパーを有効にする
+  config.include Devise::Test::IntegrationHelpers, type: :request
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
