@@ -38,7 +38,6 @@ RSpec.describe User, type: :model do
 
   describe '関連' do
     it 'database_authenticationとの1対1の関連を持つこと' do
-      pending 'タスク3で実装予定'
       association = User.reflect_on_association(:database_authentication)
       expect(association.macro).to eq(:has_one)
       expect(association.options[:class_name]).to eq('User::DatabaseAuthentication')
