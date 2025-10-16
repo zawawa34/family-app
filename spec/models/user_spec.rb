@@ -45,7 +45,6 @@ RSpec.describe User, type: :model do
     end
 
     it 'invitationsとの1対多の関連を持つこと' do
-      pending 'タスク4で実装予定'
       association = User.reflect_on_association(:invitations)
       expect(association.macro).to eq(:has_many)
       expect(association.options[:class_name]).to eq('User::Invitation')
