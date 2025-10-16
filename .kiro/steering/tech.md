@@ -31,6 +31,10 @@ Family AppはRails 8の最新機能を活用したモノリシックWebアプリ
 - **Solid Queue**: データベースベースのジョブキュー
 - **Solid Cable**: データベースベースのAction Cable
 
+### 認証
+- **Devise**: 4.9 - ユーザー認証フレームワーク
+- **bcrypt**: 3.1.7+ - パスワードハッシュ化
+
 ## フロントエンド
 
 ### フレームワークとライブラリ
@@ -105,6 +109,9 @@ mise exec -- bin/rails db:migrate
 
 # データベースセットアップ
 mise exec -- bin/rails db:setup
+
+# 初期データ投入（管理者作成）
+mise exec -- bin/rails db:seed
 ```
 
 ### テスト
@@ -157,7 +164,11 @@ RAILS_MAX_THREADS=5
 RAILS_ENV=production
 RAILS_MASTER_KEY=<credentials.yml.encの暗号化キー>
 SECRET_KEY_BASE=<Railsのsecret key>
+ADMIN_EMAIL=<初期管理者のメールアドレス>
+ADMIN_PASSWORD=<初期管理者のパスワード>
 ```
+
+**注意**: 開発環境では、ADMIN_EMAILとADMIN_PASSWORDを指定しない場合、デフォルト値（admin@example.com / password123）が使用されます。
 
 ## ポート設定
 
@@ -194,6 +205,10 @@ gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
 gem "bootsnap"
+
+# 認証
+gem "devise", "~> 4.9"
+gem "bcrypt", "~> 3.1.7"
 
 # 開発・テスト環境
 gem "rspec-rails", "~> 7.0"
