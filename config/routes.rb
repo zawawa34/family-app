@@ -4,6 +4,9 @@ Rails.application.routes.draw do
     registrations: 'user/registrations'
   }
 
+  # Invitation management
+  resources :invitations, only: [:index, :create], controller: 'user/invitations'
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
