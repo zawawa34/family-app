@@ -43,7 +43,11 @@ app/
 │   ├── images/          # 画像ファイル
 │   └── stylesheets/     # CSSファイル（Tailwind設定含む）
 ├── controllers/          # コントローラー
-│   ├── application_controller.rb
+│   ├── application_controller.rb  # Devise統合とヘルパーメソッド
+│   ├── home_controller.rb         # ホーム画面
+│   ├── user/
+│   │   ├── registrations_controller.rb  # 招待ベース登録
+│   │   └── invitations_controller.rb    # 招待管理（管理者専用）
 │   └── concerns/        # コントローラーコンサーン
 ├── helpers/              # ビューヘルパー
 │   └── application_helper.rb
@@ -56,9 +60,22 @@ app/
 │   └── application_mailer.rb
 ├── models/               # モデル
 │   ├── application_record.rb
+│   ├── user.rb          # ユーザー基本情報と役割管理
+│   ├── user/
+│   │   ├── database_authentication.rb  # Devise認証情報
+│   │   └── invitation.rb               # 招待トークン管理
 │   └── concerns/        # モデルコンサーン
 └── views/                # ビュー
     ├── layouts/         # レイアウトテンプレート
+    ├── home/            # ホーム画面
+    ├── user/
+    │   └── invitations/ # 招待管理画面
+    ├── user_database_authentications/  # Devise認証画面
+    │   ├── sessions/    # ログイン/ログアウト
+    │   ├── registrations/  # 新規登録/アカウント編集
+    │   ├── passwords/   # パスワードリセット
+    │   ├── shared/      # 共通パーシャル
+    │   └── mailer/      # 認証メール
     └── pwa/            # PWA関連ビュー
 ```
 
@@ -104,13 +121,24 @@ config/
 ```
 spec/
 ├── factories/           # Factory Botファクトリー定義
-│   └── .keep
+│   ├── users.rb        # Userファクトリー
+│   └── user/
+│       ├── database_authentications.rb  # 認証情報ファクトリー
+│       └── invitations.rb               # 招待ファクトリー
 ├── support/             # テストサポートファイル
 │   └── factory_bot.rb  # Factory Bot設定
-├── models/              # モデルテスト（作成時に配置）
-├── controllers/         # コントローラーテスト（作成時に配置）
-├── requests/            # リクエストテスト（作成時に配置）
-├── system/              # システムテスト（作成時に配置）
+├── models/              # モデルテスト
+│   ├── user_spec.rb    # Userモデルテスト
+│   └── user/
+│       ├── database_authentication_spec.rb  # 認証情報テスト
+│       └── invitation_spec.rb               # 招待テスト
+├── requests/            # リクエストテスト
+│   └── user/
+│       ├── sessions_spec.rb       # ログイン/ログアウトテスト
+│       ├── registrations_spec.rb  # 登録フローテスト
+│       └── invitations_spec.rb    # 招待管理テスト
+├── db/                  # データベーステスト
+│   └── seeds_spec.rb   # 初期データテスト
 ├── rails_helper.rb      # Rails統合RSpec設定
 └── spec_helper.rb       # RSpecコア設定
 ```
@@ -151,10 +179,13 @@ AI支援開発環境の設定
 ```
 db/
 ├── migrate/             # マイグレーションファイル
+│   ├── xxxxxx_devise_create_user_database_authentications.rb  # Devise認証テーブル
+│   ├── xxxxxx_create_users.rb                                # Userテーブル
+│   └── xxxxxx_create_user_invitations.rb                     # 招待テーブル
 ├── cache_migrate/       # Solid Cacheマイグレーション
 ├── queue_migrate/       # Solid Queueマイグレーション
 ├── cable_migrate/       # Solid Cableマイグレーション
-└── seeds.rb            # 初期データ
+└── seeds.rb            # 初期データ（初期管理者作成）
 ```
 
 ## コード構成パターン
@@ -266,6 +297,9 @@ import { application } from "./application"
 - CSRFトークンの使用
 - SQLインジェクション対策
 - XSS対策
+- bcryptによるパスワードハッシュ化
+- 役割ベースアクセス制御（RBAC）
+- 招待トークンベースの登録システム
 
 ### パフォーマンス
 - N+1クエリの回避（includes、eager_load）
