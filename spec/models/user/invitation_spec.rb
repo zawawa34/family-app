@@ -11,13 +11,13 @@ RSpec.describe User::Invitation, type: :model do
       create(:invitation, token: 'unique-token-123')
       invitation = build(:invitation, token: 'unique-token-123')
       expect(invitation).not_to be_valid
-      expect(invitation.errors[:token]).to include('has already been taken')
+      expect(invitation.errors[:token]).to include('はすでに存在します')
     end
 
     it 'statusが必須であること' do
       invitation = build(:invitation, status: nil)
       expect(invitation).not_to be_valid
-      expect(invitation.errors[:status]).to include("can't be blank")
+      expect(invitation.errors[:status]).to include("を入力してください")
     end
   end
 

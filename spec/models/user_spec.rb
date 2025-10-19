@@ -10,7 +10,7 @@ RSpec.describe User, type: :model do
     it 'roleが必須であること' do
       user = build(:user, role: nil)
       expect(user).not_to be_valid
-      expect(user.errors[:role]).to include("can't be blank")
+      expect(user.errors[:role]).to include("を入力してください")
     end
   end
 

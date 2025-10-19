@@ -10,14 +10,14 @@ RSpec.describe User::DatabaseAuthentication, type: :model do
     it 'emailが必須であること' do
       database_authentication = build(:database_authentication, email: nil)
       expect(database_authentication).not_to be_valid
-      expect(database_authentication.errors[:email]).to include("can't be blank")
+      expect(database_authentication.errors[:email]).to include("を入力してください")
     end
 
     it 'emailがユニークであること' do
       create(:database_authentication, email: 'test@example.com')
       database_authentication = build(:database_authentication, email: 'test@example.com')
       expect(database_authentication).not_to be_valid
-      expect(database_authentication.errors[:email]).to include('has already been taken')
+      expect(database_authentication.errors[:email]).to include('はすでに存在します')
     end
 
     it 'emailの形式が正しいこと' do
@@ -39,13 +39,13 @@ RSpec.describe User::DatabaseAuthentication, type: :model do
     it 'passwordが必須であること（新規作成時）' do
       database_authentication = build(:database_authentication, password: nil)
       expect(database_authentication).not_to be_valid
-      expect(database_authentication.errors[:password]).to include("can't be blank")
+      expect(database_authentication.errors[:password]).to include("を入力してください")
     end
 
     it 'passwordが8文字以上であること' do
       database_authentication = build(:database_authentication, password: 'short')
       expect(database_authentication).not_to be_valid
-      expect(database_authentication.errors[:password]).to include('is too short (minimum is 8 characters)')
+      expect(database_authentication.errors[:password]).to include('は8文字以上で入力してください')
     end
 
     it 'passwordが8文字以上の場合有効であること' do
