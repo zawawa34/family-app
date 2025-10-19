@@ -69,7 +69,7 @@ RSpec.describe "User::Sessions", type: :request do
             password: 'wrongpassword'
           }
         }
-        expect(response.body).to include('Log in')
+        expect(response.body).to include('ログイン')
       end
     end
   end

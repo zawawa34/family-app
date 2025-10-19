@@ -11,7 +11,7 @@ RSpec.describe "User::Registrations", type: :request do
       it "登録フォームを表示すること" do
         get '/users/sign_up', params: { invitation_token: valid_invitation.token }
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('Sign up')
+        expect(response.body).to include('アカウント登録')
       end
     end
 
@@ -156,7 +156,7 @@ RSpec.describe "User::Registrations", type: :request do
           }
         }
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include('Sign up')
+        expect(response.body).to include('アカウント登録')
       end
     end
   end
