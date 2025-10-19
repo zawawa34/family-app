@@ -22,14 +22,89 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <% if notice %>
-        <div class="notice"><%= notice %></div>
-      <% end %>
-      <% if alert %>
-        <div class="alert"><%= alert %></div>
-      <% end %>
+  <body class="bg-stone-50">
+    <!-- ナビゲーション -->
+    <% if user_signed_in? %>
+      <nav class="bg-white border-b border-stone-200 fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-16">
+            <!-- ロゴ -->
+            <div class="flex items-center gap-2">
+              <%= link_to root_path, class: "flex items-center gap-2 hover:opacity-80 transition-opacity duration-200" do %>
+                <span class="text-xl font-bold text-orange-500">Family App</span>
+              <% end %>
+            </div>
+
+            <!-- ナビゲーションメニュー -->
+            <div class="flex items-center gap-2">
+              <% if current_user.admin? %>
+                <%= link_to "招待管理", invitations_path,
+                  class: "px-4 py-2 text-sm font-medium text-stone-700 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-all duration-200 min-h-[44px] flex items-center" %>
+              <% end %>
+
+              <!-- ユーザーメニュー -->
+              <div class="flex items-center gap-3 pl-3 border-l border-stone-200">
+                <span class="text-sm text-stone-600 hidden md:block">
+                  <%= current_user.database_authentication.email %>
+                </span>
+                <%= button_to "ログアウト",
+                  destroy_user_database_authentication_session_path,
+                  method: :delete,
+                  class: "text-stone-600 hover:text-stone-800 hover:bg-stone-100 px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium min-h-[44px] flex items-center",
+                  form: { data: { turbo_confirm: "ログアウトしますか?" } } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- ナビゲーション分のスペース -->
+      <div class="h-16"></div>
+    <% end %>
+
+    <!-- フラッシュメッセージ -->
+    <% if notice.present? || alert.present? %>
+      <div class="fixed top-20 right-4 z-50 max-w-md" data-controller="flash">
+        <% if notice %>
+          <div class="mb-4 p-4 bg-teal-50 border-2 border-teal-200 rounded-lg shadow-md animate-fade-in-down" role="alert">
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-teal-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-teal-800"><%= notice %></p>
+              </div>
+              <button type="button" onclick="this.parentElement.parentElement.remove()" class="text-teal-400 hover:text-teal-600 transition-colors duration-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        <% end %>
+
+        <% if alert %>
+          <div class="mb-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg shadow-md animate-fade-in-down" role="alert">
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-red-800"><%= alert %></p>
+              </div>
+              <button type="button" onclick="this.parentElement.parentElement.remove()" class="text-red-400 hover:text-red-600 transition-colors duration-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- メインコンテンツ -->
+    <main>
       <%= yield %>
     </main>
   </body>
