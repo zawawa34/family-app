@@ -66,13 +66,19 @@
         </div>
       <% end %>
 
-      <!-- リンク -->
+      <!-- 登録案内 -->
       <div class="mt-6 pt-6 border-t border-stone-200">
-        <p class="text-sm text-stone-600 text-center">
-          アカウントをお持ちでないですか？
-          <%= link_to "招待リンクから登録", new_user_database_authentication_registration_path,
-            class: "text-orange-500 hover:text-orange-600 active:text-orange-700 font-semibold transition-colors duration-200" %>
-        </p>
+        <div class="text-center">
+          <p class="text-sm text-stone-600 mb-2">
+            アカウントをお持ちでないですか？
+          </p>
+          <div class="bg-amber-50 border border-amber-200 rounded-lg p-3">
+            <p class="text-xs text-amber-800">
+              新規登録には<span class="font-semibold">招待リンク</span>が必要です。<br>
+              管理者から送られた招待URLからアカウントを作成してください。
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
