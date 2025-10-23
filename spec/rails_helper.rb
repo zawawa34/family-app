@@ -36,6 +36,9 @@ RSpec.configure do |config|
   # Factory Botのメソッドを直接使えるようにする
   config.include FactoryBot::Syntax::Methods
 
+  # ActiveSupport::Testing::TimeHelpersを有効にする（freeze_timeなど）
+  config.include ActiveSupport::Testing::TimeHelpers
+
   # Deviseのテストヘルパーを有効にする
   config.include Devise::Test::IntegrationHelpers, type: :request
 
