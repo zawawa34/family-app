@@ -47,6 +47,10 @@ Note: Optional for new features or small additions. You can proceed directly to 
 6. **Keep steering current**: Run `/kiro:steering` after significant changes
 7. **Check spec compliance**: Use `/kiro:spec-status` to verify alignment
 
+## UI/UX Development
+- **Mockup Creation**: 要件定義や設計中にUIを確認するためのモックアップは`public/mockups/`ディレクトリに静的HTMLファイルとして作成する
+- **Version Control**: `public/mockups/`ディレクトリ内のファイルはgit管理対象外（.gitignoreで除外）
+
 ## Steering Configuration
 
 ### Current Steering Files

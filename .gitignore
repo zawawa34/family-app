@@ -30,6 +30,9 @@
 
 /public/assets
 
+# Ignore mockup files (UI/UX development).
+/public/mockups
+
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
