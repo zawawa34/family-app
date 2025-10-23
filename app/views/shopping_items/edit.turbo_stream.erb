@@ -1,0 +1,4 @@
+<%# 商品をインライン編集フォームに置き換え %>
+<%= turbo_stream.replace dom_id(@item) do %>
+  <%= render partial: "shopping_items/edit_form", locals: { shopping_list: @shopping_list, item: @item } %>
+<% end %>

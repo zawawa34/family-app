@@ -1,0 +1,57 @@
+<%# 商品編集フォーム（インライン表示） %>
+<div id="edit_item_<%= item.id %>" class="p-4 bg-stone-50 border-l-4 border-orange-500">
+  <%= form_with(model: item, url: shopping_list_item_path(shopping_list, item), method: :patch, class: "space-y-3") do |f| %>
+    <%# エラーメッセージ %>
+    <% if item.errors.any? %>
+      <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm">
+        <ul class="list-disc list-inside">
+          <% item.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%# 商品名 %>
+    <div>
+      <%= f.label :name, "商品名", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :name,
+          class: "w-full px-3 py-2 text-base border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 min-h-[44px]" %>
+    </div>
+
+    <%# 数量 %>
+    <div>
+      <%= f.label :quantity, "数量", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :quantity,
+          placeholder: "例: 2個、500g",
+          class: "w-full px-3 py-2 text-base border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 min-h-[44px]" %>
+    </div>
+
+    <%# 購入店舗 %>
+    <div>
+      <%= f.label :store_name, "購入店舗", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_field :store_name,
+          placeholder: "例: スーパー、コンビニ",
+          class: "w-full px-3 py-2 text-base border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 min-h-[44px]" %>
+    </div>
+
+    <%# メモ %>
+    <div>
+      <%= f.label :memo, "メモ", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= f.text_area :memo,
+          placeholder: "メモを入力",
+          rows: 2,
+          class: "w-full px-3 py-2 text-base border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200" %>
+    </div>
+
+    <%# ボタン %>
+    <div class="flex gap-2">
+      <%= f.submit "保存",
+          class: "flex-1 px-4 py-2 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 active:bg-orange-700 transition-colors duration-150 min-h-[44px]" %>
+      <%= link_to "キャンセル",
+          shopping_list_item_path(shopping_list, item),
+          data: { turbo_method: :get, turbo_stream: true },
+          class: "flex-1 px-4 py-2 bg-stone-200 text-stone-700 font-semibold rounded-lg hover:bg-stone-300 active:bg-stone-400 transition-colors duration-150 min-h-[44px] text-center leading-[44px]" %>
+    </div>
+  <% end %>
+</div>
