@@ -10,9 +10,9 @@ class User::InvitationsController < ApplicationController
     @invitation = current_user.invitations.build
 
     if @invitation.save
-      redirect_to invitations_path, notice: '招待リンクを作成しました'
+      redirect_to invitations_path, notice: "招待リンクを作成しました"
     else
-      redirect_to invitations_path, alert: '招待リンクの作成に失敗しました'
+      redirect_to invitations_path, alert: "招待リンクの作成に失敗しました"
     end
   end
 
@@ -20,7 +20,7 @@ class User::InvitationsController < ApplicationController
 
   def require_admin!
     unless current_user.admin?
-      flash[:alert] = '管理者のみアクセスできます'
+      flash[:alert] = "管理者のみアクセスできます"
       redirect_to root_path
     end
   end

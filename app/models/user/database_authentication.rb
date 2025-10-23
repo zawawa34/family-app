@@ -3,5 +3,5 @@ class User::DatabaseAuthentication < ApplicationRecord
   devise :database_authenticatable, :registerable, :rememberable, :validatable
 
   # 関連
-  belongs_to :user, class_name: 'User'
+  belongs_to :user, class_name: "User"
 end

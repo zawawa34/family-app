@@ -1,7 +1,7 @@
 class User::RegistrationsController < Devise::RegistrationsController
-  skip_before_action :require_no_authentication, only: [:new, :create]
+  skip_before_action :require_no_authentication, only: [ :new, :create ]
   skip_before_action :verify_authenticity_token, if: -> { Rails.env.test? }
-  before_action :validate_invitation_token, only: [:new, :create]
+  before_action :validate_invitation_token, only: [ :new, :create ]
 
   # GET /users/sign_up?invitation_token=xxx
   def new
@@ -46,7 +46,7 @@ class User::RegistrationsController < Devise::RegistrationsController
     invitation = User::Invitation.find_by(token: params[:invitation_token])
 
     unless invitation&.valid_invitation?
-      flash[:alert] = '招待リンクが無効または期限切れです'
+      flash[:alert] = "招待リンクが無効または期限切れです"
       redirect_to new_user_database_authentication_session_path
     end
   end

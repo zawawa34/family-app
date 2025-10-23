@@ -40,7 +40,7 @@ module FamilyApp
     config.i18n.default_locale = :ja
 
     # 利用可能な言語を設定
-    config.i18n.available_locales = [:ja, :en]
+    config.i18n.available_locales = [ :ja, :en ]
 
     # タイムゾーンを日本に設定
     config.time_zone = "Tokyo"

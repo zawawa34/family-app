@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
   # Devise routes for authentication
-  devise_for :user_database_authentications, path: 'users', class_name: 'User::DatabaseAuthentication', controllers: {
-    sessions: 'user/sessions',
-    registrations: 'user/registrations'
+  devise_for :user_database_authentications, path: "users", class_name: "User::DatabaseAuthentication", controllers: {
+    sessions: "user/sessions",
+    registrations: "user/registrations"
   }
 
   # Invitation management
-  resources :invitations, only: [:index, :create], controller: 'user/invitations'
+  resources :invitations, only: [ :index, :create ], controller: "user/invitations"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

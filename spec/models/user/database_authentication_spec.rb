@@ -21,7 +21,7 @@ RSpec.describe User::DatabaseAuthentication, type: :model do
     end
 
     it 'emailの形式が正しいこと' do
-      valid_emails = ['user@example.com', 'test+tag@domain.co.jp', 'name.surname@company.org']
+      valid_emails = [ 'user@example.com', 'test+tag@domain.co.jp', 'name.surname@company.org' ]
       valid_emails.each do |email|
         database_authentication = build(:database_authentication, email: email)
         expect(database_authentication).to be_valid, "#{email} should be valid"
@@ -29,7 +29,7 @@ RSpec.describe User::DatabaseAuthentication, type: :model do
     end
 
     it '不正な形式のemailを拒否すること' do
-      invalid_emails = ['invalid', '@example.com', 'user@', 'user @example.com']
+      invalid_emails = [ 'invalid', '@example.com', 'user@', 'user @example.com' ]
       invalid_emails.each do |email|
         database_authentication = build(:database_authentication, email: email)
         expect(database_authentication).not_to be_valid, "#{email} should be invalid"

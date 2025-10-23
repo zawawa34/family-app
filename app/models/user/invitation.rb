@@ -3,7 +3,7 @@ class User::Invitation < ApplicationRecord
   enum :status, { unused: 0, used: 1 }, default: :unused
 
   # 関連
-  belongs_to :create_user, class_name: 'User', foreign_key: :create_user_id
+  belongs_to :create_user, class_name: "User", foreign_key: :create_user_id
 
   # バリデーション
   validates :token, presence: true, uniqueness: true
