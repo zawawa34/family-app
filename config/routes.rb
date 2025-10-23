@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   resources :invitations, only: [ :index, :create ], controller: "user/invitations"
 
   # Shopping list management
-  resources :shopping_lists, only: [ :index ]
+  resources :shopping_lists, only: [ :index ] do
+    # Shopping items (短縮URL: items)
+    resources :items, only: [ :create, :edit, :update, :destroy ], controller: 'shopping_items'
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

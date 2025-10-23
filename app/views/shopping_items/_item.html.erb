@@ -1,0 +1,48 @@
+<%# 商品アイテムの表示 %>
+<div id="<%= dom_id(item) %>" class="<%= item.picked? ? 'shopping-item picked bg-stone-50' : 'shopping-item unpicked' %> p-4 hover:bg-stone-50 transition-colors duration-150 min-h-[44px] flex items-center" data-item-id="<%= item.id %>">
+  <div class="flex-1">
+    <%# 商品名 %>
+    <div class="flex items-center gap-2 mb-1">
+      <h3 class="text-base font-semibold <%= item.picked? ? 'text-stone-500 line-through' : 'text-stone-900' %>">
+        <%= item.name %>
+      </h3>
+      <% if item.picked? %>
+        <span class="px-2 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full bg-stone-200 text-stone-600">
+          カート内
+        </span>
+      <% end %>
+    </div>
+
+    <%# 商品情報 %>
+    <div class="flex flex-wrap items-center gap-3 text-sm text-stone-600">
+      <% if item.quantity.present? %>
+        <div class="flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+          </svg>
+          <span><%= item.quantity %></span>
+        </div>
+      <% end %>
+
+      <div class="flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+        <% if item.store_name.present? %>
+          <span><%= item.store_name %></span>
+        <% else %>
+          <span class="text-amber-600 font-medium">店舗未設定</span>
+        <% end %>
+      </div>
+
+      <% if item.memo.present? %>
+        <div class="flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+          </svg>
+          <span><%= item.memo %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
