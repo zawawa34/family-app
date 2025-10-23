@@ -55,7 +55,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # RSpec testing framework [https://github.com/rspec/rspec-rails]
-  gem "rspec-rails", "~> 7.0"
+  gem "rspec-rails", "~> 8.0"
   # Factory Bot for test data [https://github.com/thoughtbot/factory_bot_rails]
   gem "factory_bot_rails"
   # Faker for generating fake data [https://github.com/faker-ruby/faker]
