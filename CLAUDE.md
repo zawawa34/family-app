@@ -16,6 +16,7 @@ Kiro-style Spec Driven Development implementation using claude code slash comman
 
 ### Active Specifications
 - **user-authentication**: ユーザー認証とログイン機能の実装（初期化完了）
+- **shopping-list**: 家族で共有する買い物リスト管理機能（初期化完了）
 - Use `/kiro:spec-status [feature-name]` to check progress
 
 ## Development Guidelines
