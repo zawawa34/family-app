@@ -142,4 +142,86 @@ RSpec.describe ShoppingItem, type: :model do
       end
     end
   end
+
+  describe '並び順管理（positioning gem）' do
+    describe 'position の自動設定' do
+      it '新しい商品がリストの末尾に追加されること' do
+        item1 = shopping_list.items.create!(name: '商品1')
+        item2 = shopping_list.items.create!(name: '商品2')
+        item3 = shopping_list.items.create!(name: '商品3')
+
+        expect(item1.position).to eq(1)
+        expect(item2.position).to eq(2)
+        expect(item3.position).to eq(3)
+      end
+
+      it '削除後も残りの商品のpositionが整合性を保つこと' do
+        item1 = shopping_list.items.create!(name: '商品1')
+        item2 = shopping_list.items.create!(name: '商品2')
+        item3 = shopping_list.items.create!(name: '商品3')
+
+        item2.destroy
+
+        expect(shopping_list.items.order(:position).pluck(:name)).to eq(['商品1', '商品3'])
+      end
+    end
+
+    describe '相対位置指定による並び替え' do
+      let!(:item1) { shopping_list.items.create!(name: '商品1') }
+      let!(:item2) { shopping_list.items.create!(name: '商品2') }
+      let!(:item3) { shopping_list.items.create!(name: '商品3') }
+      let!(:item4) { shopping_list.items.create!(name: '商品4') }
+
+      it '商品を別の商品の後ろに移動できること' do
+        # 商品4を商品1の後ろに移動
+        item4.update!(position: { after: item1.id })
+
+        items = shopping_list.items.order(:position)
+        expect(items.pluck(:name)).to eq(['商品1', '商品4', '商品2', '商品3'])
+      end
+
+      it '商品をリストの先頭に移動できること' do
+        # 商品4を先頭に移動
+        item4.update!(position: { after: nil })
+
+        items = shopping_list.items.order(:position)
+        expect(items.pluck(:name)).to eq(['商品4', '商品1', '商品2', '商品3'])
+      end
+
+      it '商品をリストの末尾に移動できること' do
+        # 商品1を商品4（最後）の後ろに移動
+        item1.update!(position: { after: item4.id })
+
+        items = shopping_list.items.order(:position)
+        expect(items.pluck(:name)).to eq(['商品2', '商品3', '商品4', '商品1'])
+      end
+
+      it '複数の商品を並び替えても整合性が保たれること' do
+        # 商品3を先頭に
+        item3.update!(position: { after: nil })
+        # 商品1を商品4の後ろに
+        item1.update!(position: { after: item4.id })
+
+        items = shopping_list.items.order(:position)
+        expect(items.pluck(:name)).to eq(['商品3', '商品2', '商品4', '商品1'])
+
+        # positionが1から順番に連番になっていることを確認
+        expect(items.pluck(:position)).to eq([1, 2, 3, 4])
+      end
+    end
+
+    describe 'リストごとの独立性' do
+      let(:another_list) { ShoppingList.create!(name: '別の買い物リスト') }
+
+      it '異なるリストの商品は独立したpositionを持つこと' do
+        item1 = shopping_list.items.create!(name: 'リスト1の商品1')
+        item2 = another_list.items.create!(name: 'リスト2の商品1')
+        item3 = shopping_list.items.create!(name: 'リスト1の商品2')
+
+        expect(item1.position).to eq(1)
+        expect(item2.position).to eq(1)
+        expect(item3.position).to eq(2)
+      end
+    end
+  end
 end

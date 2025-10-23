@@ -2,6 +2,10 @@ class ShoppingItem < ApplicationRecord
   # 関連
   belongs_to :shopping_list
 
+  # 並び順管理（positioning gem）
+  # shopping_listごとに独立した並び順を管理
+  positioned on: :shopping_list
+
   # バリデーション
   validates :name, presence: true
 
