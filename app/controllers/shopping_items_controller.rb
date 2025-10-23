@@ -1,7 +1,7 @@
 class ShoppingItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_shopping_list
-  before_action :set_item, only: [:edit, :update]
+  before_action :set_item, only: [:edit, :update, :destroy]
 
   # POST /shopping_lists/:shopping_list_id/items
   # 商品を追加
@@ -54,6 +54,16 @@ class ShoppingItemsController < ApplicationController
           ), status: :unprocessable_entity
         end
       end
+    end
+  end
+
+  # DELETE /shopping_lists/:shopping_list_id/items/:id
+  # 商品を削除
+  def destroy
+    @item.destroy
+
+    respond_to do |format|
+      format.turbo_stream
     end
   end
 

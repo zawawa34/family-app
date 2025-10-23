@@ -181,4 +181,33 @@ RSpec.describe "ShoppingItems", type: :request do
       end
     end
   end
+
+  describe "DELETE /shopping_lists/:shopping_list_id/items/:id" do
+    let!(:item) { shopping_list.items.create!(name: '商品A', quantity: '2個', store_name: 'スーパー') }
+
+    context "未認証ユーザーの場合" do
+      it "ログイン画面にリダイレクトすること" do
+        delete shopping_list_item_path(shopping_list, item)
+        expect(response).to redirect_to(new_user_database_authentication_session_path)
+      end
+    end
+
+    context "認証済みユーザーの場合" do
+      before do
+        sign_in database_authentication
+      end
+
+      it "商品を削除できること" do
+        expect {
+          delete shopping_list_item_path(shopping_list, item), as: :turbo_stream
+        }.to change(ShoppingItem, :count).by(-1)
+      end
+
+      it "Turbo Streamレスポンスを返すこと" do
+        delete shopping_list_item_path(shopping_list, item), as: :turbo_stream
+        expect(response).to have_http_status(:success)
+        expect(response.media_type).to eq 'text/vnd.turbo-stream.html'
+      end
+    end
+  end
 end
