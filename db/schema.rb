@@ -10,7 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_16_121649) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_23_154612) do
+  create_table "shopping_items", force: :cascade do |t|
+    t.integer "shopping_list_id", null: false
+    t.string "name", null: false
+    t.string "quantity"
+    t.text "memo"
+    t.string "store_name"
+    t.datetime "picked_at"
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["picked_at"], name: "index_shopping_items_on_picked_at"
+    t.index ["shopping_list_id", "position"], name: "index_shopping_items_on_shopping_list_id_and_position", unique: true
+    t.index ["shopping_list_id"], name: "index_shopping_items_on_shopping_list_id"
+    t.index ["store_name"], name: "index_shopping_items_on_store_name"
+  end
+
+  create_table "shopping_lists", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_shopping_lists_on_owner_id"
+  end
+
   create_table "user_database_authentications", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "email", null: false
@@ -39,6 +63,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_16_121649) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "shopping_items", "shopping_lists"
+  add_foreign_key "shopping_lists", "users", column: "owner_id"
   add_foreign_key "user_database_authentications", "users"
   add_foreign_key "user_invitations", "users", column: "create_user_id"
 end
