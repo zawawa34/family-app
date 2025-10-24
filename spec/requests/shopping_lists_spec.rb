@@ -69,6 +69,52 @@ RSpec.describe "ShoppingLists", type: :request do
           expect(response.body).to include('スーパー')
         end
       end
+
+      context "店舗フィルタリング機能" do
+        let!(:shopping_list) { ShoppingList.create!(name: '買い物リスト') }
+        let!(:supermarket_item) { shopping_list.items.create!(name: '牛乳', store_name: 'スーパー') }
+        let!(:drugstore_item) { shopping_list.items.create!(name: 'シャンプー', store_name: 'ドラッグストア') }
+        let!(:no_store_item) { shopping_list.items.create!(name: 'その他', store_name: nil) }
+
+        it "フィルタなしの場合、すべての商品を表示すること" do
+          get shopping_lists_path
+          expect(response).to have_http_status(:success)
+          expect(response.body).to include('牛乳')
+          expect(response.body).to include('シャンプー')
+          expect(response.body).to include('その他')
+        end
+
+        it "特定店舗でフィルタした場合、該当商品と店舗未設定商品を表示すること" do
+          get shopping_lists_path(store: 'スーパー')
+          expect(response).to have_http_status(:success)
+          expect(response.body).to include('牛乳')
+          expect(response.body).to include('その他')  # 店舗未設定も含む
+          expect(response.body).not_to include('シャンプー')
+        end
+
+        it "別の店舗でフィルタした場合、該当商品と店舗未設定商品を表示すること" do
+          get shopping_lists_path(store: 'ドラッグストア')
+          expect(response).to have_http_status(:success)
+          expect(response.body).to include('シャンプー')
+          expect(response.body).to include('その他')  # 店舗未設定も含む
+          expect(response.body).not_to include('牛乳')
+        end
+
+        it "登録されている店舗名の一覧を表示すること" do
+          get shopping_lists_path
+          expect(response).to have_http_status(:success)
+          # ビュー側で店舗名の選択肢を表示する実装を期待
+          expect(response.body).to include('スーパー')
+          expect(response.body).to include('ドラッグストア')
+        end
+
+        it "現在のフィルタ条件を画面に表示すること" do
+          get shopping_lists_path(store: 'スーパー')
+          expect(response).to have_http_status(:success)
+          # フィルタが適用されていることを示す表示を期待
+          expect(response.body).to include('スーパー')
+        end
+      end
     end
   end
 end

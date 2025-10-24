@@ -21,6 +21,40 @@
       <%= render partial: "shopping_items/form", locals: { shopping_list: @shopping_list, item: @shopping_list.items.build } %>
     </div>
 
+    <!-- 店舗フィルタ -->
+    <% if @available_stores.any? %>
+      <div class="mb-6">
+        <div class="bg-white rounded-xl shadow-sm border border-stone-100 p-4">
+          <div class="flex items-center gap-3 flex-wrap">
+            <span class="text-sm font-semibold text-stone-700">店舗:</span>
+
+            <%= link_to shopping_lists_path,
+                class: "inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 min-h-[44px] #{@current_store.nil? ? 'bg-orange-600 text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}" do %>
+              すべて
+            <% end %>
+
+            <% @available_stores.each do |store| %>
+              <%= link_to shopping_lists_path(store: store),
+                  class: "inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 min-h-[44px] #{@current_store == store ? 'bg-orange-600 text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}" do %>
+                <%= store %>
+              <% end %>
+            <% end %>
+          </div>
+
+          <% if @current_store.present? %>
+            <div class="mt-3 text-sm text-stone-600">
+              <span class="inline-flex items-center gap-1">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+                「<%= @current_store %>」でフィルタ中（店舗未設定商品も含む）
+              </span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <!-- カート内商品の一括削除ボタン -->
     <% if @shopping_list.picked_items_count > 0 %>
       <div class="mb-6">
