@@ -1,5 +1,15 @@
 <%# 商品アイテムの表示 %>
 <div id="<%= dom_id(item) %>" class="<%= item.picked? ? 'shopping-item picked bg-stone-50' : 'shopping-item unpicked' %> p-4 hover:bg-stone-50 transition-colors duration-150 min-h-[44px] flex items-center gap-3" data-item-id="<%= item.id %>">
+  <%# ドラッグハンドル %>
+  <div class="flex-shrink-0 drag-handle cursor-move touch-none">
+    <div class="inline-flex items-center justify-center w-10 h-10 text-stone-400 hover:text-stone-600 hover:bg-stone-100 rounded-lg transition-colors duration-150 min-w-[44px] min-h-[44px]"
+         title="ドラッグして並び替え">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M9 3h2v2H9V3zm0 4h2v2H9V7zm0 4h2v2H9v-2zm0 4h2v2H9v-2zm0 4h2v2H9v-2zm4-16h2v2h-2V3zm0 4h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2z"/>
+      </svg>
+    </div>
+  </div>
+
   <%# ピックボタン（チェックボックス） %>
   <div class="flex-shrink-0">
     <% if item.picked? %>

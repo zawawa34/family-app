@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     resources :items, only: [ :create, :edit, :update, :destroy ], controller: 'shopping_items' do
       # 商品のピック状態リソース（singular resource）
       resource :pick, only: [ :create, :destroy ], controller: 'shopping_items/picks'
+      # 商品の並び順リソース（singular resource）
+      resource :position, only: [ :update ], controller: 'shopping_items/positions'
     end
     # カート内商品の一括削除（singular resource）
     resource :picked_items, only: [ :destroy ], controller: 'shopping_lists/picked_items'
