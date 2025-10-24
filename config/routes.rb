@@ -11,7 +11,12 @@ Rails.application.routes.draw do
   # Shopping list management
   resources :shopping_lists, only: [ :index ] do
     # Shopping items (短縮URL: items)
-    resources :items, only: [ :create, :edit, :update, :destroy ], controller: 'shopping_items'
+    resources :items, only: [ :create, :edit, :update, :destroy ], controller: 'shopping_items' do
+      # 商品のピック状態リソース（singular resource）
+      resource :pick, only: [ :create, :destroy ], controller: 'shopping_items/picks'
+    end
+    # カート内商品の一括削除（singular resource）
+    resource :picked_items, only: [ :destroy ], controller: 'shopping_lists/picked_items'
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

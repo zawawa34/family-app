@@ -1,5 +1,30 @@
 <%# 商品アイテムの表示 %>
 <div id="<%= dom_id(item) %>" class="<%= item.picked? ? 'shopping-item picked bg-stone-50' : 'shopping-item unpicked' %> p-4 hover:bg-stone-50 transition-colors duration-150 min-h-[44px] flex items-center gap-3" data-item-id="<%= item.id %>">
+  <%# ピックボタン（チェックボックス） %>
+  <div class="flex-shrink-0">
+    <% if item.picked? %>
+      <%= button_to shopping_list_item_pick_path(ShoppingList.default, item),
+          method: :delete,
+          form: { data: { turbo_stream: true } },
+          class: "inline-flex items-center justify-center w-10 h-10 text-orange-600 hover:text-orange-700 hover:bg-orange-50 rounded-lg transition-colors duration-150 min-w-[44px] min-h-[44px]",
+          title: "カートから出す" do %>
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+        </svg>
+      <% end %>
+    <% else %>
+      <%= button_to shopping_list_item_pick_path(ShoppingList.default, item),
+          method: :post,
+          form: { data: { turbo_stream: true } },
+          class: "inline-flex items-center justify-center w-10 h-10 text-stone-400 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors duration-150 min-w-[44px] min-h-[44px]",
+          title: "カートに入れる" do %>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+        </svg>
+      <% end %>
+    <% end %>
+  </div>
+
   <div class="flex-1 min-w-0">
     <%# 商品名 %>
     <div class="flex items-center gap-2 mb-1">

@@ -13,10 +13,28 @@
 
   <!-- メインコンテンツ -->
   <div class="max-w-7xl mx-auto px-4 py-6 md:px-6 lg:px-8">
+    <!-- フラッシュメッセージ -->
+    <div id="flash_messages"></div>
+
     <!-- 商品追加フォーム -->
     <div class="bg-white rounded-xl shadow-sm border border-stone-100 overflow-hidden mb-6">
       <%= render partial: "shopping_items/form", locals: { shopping_list: @shopping_list, item: @shopping_list.items.build } %>
     </div>
+
+    <!-- カート内商品の一括削除ボタン -->
+    <% if @shopping_list.picked_items_count > 0 %>
+      <div class="mb-6">
+        <%= button_to shopping_list_picked_items_path(@shopping_list),
+            method: :delete,
+            form: { data: { turbo_stream: true, turbo_confirm: "カート内の#{@shopping_list.picked_items_count}件の商品を削除しますか？" } },
+            class: "w-full inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors duration-150 min-h-[44px]" do %>
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          カート内商品を削除 (<%= @shopping_list.picked_items_count %>件)
+        <% end %>
+      </div>
+    <% end %>
 
     <% if @items.empty? %>
       <!-- 空の状態 -->
