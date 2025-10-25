@@ -16,6 +16,11 @@ Rails.application.routes.draw do
       resource :pick, only: [ :create, :destroy ], controller: 'shopping_items/picks'
       # 商品の並び順リソース（singular resource）
       resource :position, only: [ :update ], controller: 'shopping_items/positions'
+
+      # 店舗名オートコンプリート（collection route）
+      collection do
+        get :autocomplete_stores
+      end
     end
     # カート内商品の一括削除（singular resource）
     resource :picked_items, only: [ :destroy ], controller: 'shopping_lists/picked_items'

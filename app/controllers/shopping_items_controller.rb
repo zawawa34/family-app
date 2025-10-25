@@ -67,6 +67,31 @@ class ShoppingItemsController < ApplicationController
     end
   end
 
+  # GET /shopping_lists/:shopping_list_id/items/autocomplete_stores
+  # 店舗名のオートコンプリート候補を返す
+  # パラメータ:
+  #   q: 検索クエリ（部分一致）
+  def autocomplete_stores
+    query = params[:q].to_s.strip
+
+    # 検索クエリが空の場合は空配列を返す
+    if query.blank?
+      render json: []
+      return
+    end
+
+    # 店舗名を部分一致検索し、使用頻度順（降順）で最大10件取得
+    stores = @shopping_list.items
+                           .where.not(store_name: nil)
+                           .where('store_name LIKE ?', "%#{query}%")
+                           .group(:store_name)
+                           .order(Arel.sql('COUNT(*) DESC'))
+                           .limit(10)
+                           .pluck(:store_name)
+
+    render json: stores
+  end
+
   private
 
   # デフォルトの買い物リストを設定
