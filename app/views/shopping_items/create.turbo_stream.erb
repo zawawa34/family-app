@@ -6,3 +6,6 @@
 <%= turbo_stream.replace "new_item_form" do %>
   <%= render partial: "shopping_items/form", locals: { shopping_list: @shopping_list, item: @shopping_list.items.build } %>
 <% end %>
+
+<%# 成功メッセージ %>
+<%= turbo_flash_success("「#{@item.name}」を追加しました") %>

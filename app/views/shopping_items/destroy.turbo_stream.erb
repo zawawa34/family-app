@@ -1,2 +1,5 @@
 <%# 商品をリストから削除 %>
 <%= turbo_stream.remove dom_id(@item) %>
+
+<%# 成功メッセージ %>
+<%= turbo_flash_success("「#{@item.name}」を削除しました") %>

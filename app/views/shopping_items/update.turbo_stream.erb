@@ -2,3 +2,6 @@
 <%= turbo_stream.replace "edit_item_#{@item.id}" do %>
   <%= render partial: "shopping_items/item", locals: { item: @item } %>
 <% end %>
+
+<%# 成功メッセージ %>
+<%= turbo_flash_success("「#{@item.name}」を更新しました") %>
