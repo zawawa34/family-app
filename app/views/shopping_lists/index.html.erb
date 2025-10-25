@@ -29,13 +29,13 @@
             <span class="text-sm font-semibold text-stone-700">店舗:</span>
 
             <%= link_to shopping_lists_path,
-                class: "inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 min-h-[44px] #{@current_store.nil? ? 'bg-orange-600 text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}" do %>
+                class: "inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 min-h-[44px] #{@current_store.nil? ? 'bg-orange-600 text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200 active:bg-stone-300'}" do %>
               すべて
             <% end %>
 
             <% @available_stores.each do |store| %>
               <%= link_to shopping_lists_path(store: store),
-                  class: "inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 min-h-[44px] #{@current_store == store ? 'bg-orange-600 text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200'}" do %>
+                  class: "inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 min-h-[44px] #{@current_store == store ? 'bg-orange-600 text-white' : 'bg-stone-100 text-stone-700 hover:bg-stone-200 active:bg-stone-300'}" do %>
                 <%= store %>
               <% end %>
             <% end %>
@@ -61,7 +61,7 @@
         <%= button_to shopping_list_picked_items_path(@shopping_list),
             method: :delete,
             form: { data: { turbo_stream: true, turbo_confirm: "カート内の#{@shopping_list.picked_items_count}件の商品を削除しますか？" } },
-            class: "w-full inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors duration-150 min-h-[44px]" do %>
+            class: "w-full inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-semibold rounded-lg transition-colors duration-150 min-h-[44px]" do %>
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
           </svg>

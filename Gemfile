@@ -62,6 +62,10 @@ group :development, :test do
   gem "factory_bot_rails"
   # Faker for generating fake data [https://github.com/faker-ruby/faker]
   gem "faker"
+  # Capybara for system testing [https://github.com/teamcapybara/capybara]
+  gem "capybara"
+  # Selenium WebDriver for browser automation [https://github.com/SeleniumHQ/selenium]
+  gem "selenium-webdriver"
 end
 
 group :development do
